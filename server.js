@@ -7,7 +7,7 @@ var app = express();
 mongoose.connect("mongodb://localhost/CourseShop", { useNewUrlParser: true }, function(err){
     if(err) return console.log(err);
     app.listen(3000, function(){
-        console.log("Cервер прослушивает входящие соединения!");
+        console.log("Cервер запущен..");
     });
 });
 
@@ -15,4 +15,3 @@ app.use(express.static(__dirname + "/views"));
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", courseRouter);
-

@@ -7,20 +7,42 @@ var main = function () {
                 contentType: "application/json",
                 success: function (courses) {
                     $.each(courses, function (index, course) {
-                        // добавляем полученные элементы в таблицу
+                        // добавляем полученные элементы в html
 
                         var $title = $("<div class=\"title\">")
-							.append($("<h3>").append($("<a>").attr("href", "#").text(course.name)));
+							.append($("<h3>").text(course.name));
 						$title.append($("<p>").text(course.description));
 						
-						//var $meta = $("<time class=\"published\" datetime=\"2015-11-01\">").text("01.05.2013");
-						//$meta.append($("<span class=\"name\">").text("Михайлов А.И."));
+						var $meta = $("<div class=\"meta\">").append($("<h2>").text(course.date));
+						$meta.append($("<span class=\"name\">").text(course.author));
 
-						var $content = $("<article class=\"post\">")
-							.append($("<header>").append($title));
-						//$content.append($meta);
+						var $header = $("<header>").append($title);
+						$header.append($meta);
 
-						$("#main").append($content);
+						var $price = $("<li>");
+						if(course.price == null)
+							$price.text("Бесплатно");
+						else 
+							$price.text(course.price);
+
+						var $toGet = $("<li>").append($("<a>").attr("href", "#").text("Приобрести"));
+						$toGet.on("click", function () {
+							var agreement = confirm("Вы действительно хотите приобрести данный курс?");
+							if (agreement == true) {
+								alert("Курс добавлен в вкладки 'Приобретенные курсы'.");
+							}
+							else {
+								//
+							}
+						});	
+
+						var $footer = $("<footer>").append($("<ul class=\"stats\">").append($price).append($toGet));
+
+						var $post = $("<article class=\"post\">")
+							.append($header);
+						$post.append($footer);
+
+						$("#main").append($post);
                         
                     });
                 }
