@@ -1,7 +1,7 @@
 var express = require("express");
-var http = require("http");
 var mongoose = require("mongoose");
 var courseRouter = require("./routes/courseRouter.js");
+var userRouter = require("./routes/userRouter.js");
 var app = express();
 
 mongoose.connect("mongodb://localhost/CourseShop", { useNewUrlParser: true }, function(err){
@@ -15,3 +15,8 @@ app.use(express.static(__dirname + "/views"));
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", courseRouter);
+app.use("/", userRouter);
+
+//app.use("", function (request, response) {
+ // response.redirect("/authorization.html");
+//});
