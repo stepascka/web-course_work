@@ -62,9 +62,67 @@ var main = function () {
                 	});
                 }
             });
+
+
+			//меню			
+			var $menuLink = $("<a>").attr("href", "").text("Главная");
+			$menuLink.on("click", function () {
+				var login = location.pathname.split('/')[2];
+				$.ajax({
+			                url: "/user/" + login,
+			                type: "GET",
+			                contentType: "application/json"
+			        }).done(function (response) {
+			 			document.location.href = location.origin + "/user/" + login + "/";
+			 		}).fail(function (err) {
+						console.log("Error...");
+				});
+
+				return false;
+			});
+
+            $("section ul").append($("<li>").append($("<h3>").append($menuLink)));
+
+
+            var $menuLink = $("<a>").attr("href", "#").text("Приобретенные курсы");
+            $("section ul").append($("<li>").append($("<h3>").append($menuLink)));
+
+
+            var $menuLink = $("<a>").attr("href", "#").text("Пополнить баланс");
+            $menuLink.on("click", function () {
+            	var login = location.pathname.split('/')[2];
+
+            	var addBalance = prompt('На сколько вы хотите увеличить свой баланс (0-500): ', "50");
+            	if (addBalance > 0 && addBalance < 500) {
+            		$.ajax({
+ 							url: "/user/" + login + "/balance",
+ 							type: "PUT",
+ 							data: { "balance": addBalance }
+ 					}).done(function (response) {
+			 						$.ajax({
+						                url: "/user/" + login,
+						                type: "GET",
+						                contentType: "application/json"
+							        }).done(function (response) {
+							 			document.location.href = location.origin + "/user/" + login + "/";
+							 		}).fail(function (err) {
+										console.log("Error...");
+									});
+ 					}).fail(function (err) {
+						console.log("Error...");
+					});
+            	}
+            	else {
+            		alert("Ваше значение не соответствует указанным условиям.");
+            	}
+				return false;
+			});
+
+            $("section ul").append($("<li>").append($("<h3>").append($menuLink)));
 		          
 };
 
 $(document).ready(function() {
 		main();
 });
+
