@@ -11,22 +11,34 @@ $(".form .register-form button").click(function(){
 
 $(".form .login-form button").click(function(){
 	var login = document.getElementById("log-login").value;
-	if (login == "rinat") {
-		//document.location.href = location.origin + "/main.html";
-		//alert(location.origin + "/user/" + login + "/");
-		$.ajax({
-                url: "/user/" + login,
-                type: "GET",
-                contentType: "application/json"
-        }).done(function (response) {
-        	alert(location.origin + "/user/" + login + "/");
- 							document.location.href = location.origin + "/user/" + login + "/";
- 						}).fail(function (err) {
-							 console.log("error");
-						 });
-	}
-	else {
-		alert("Данного пользователя не существует.");
-	}
-   	
+	var userIsFound = false;
+	
+	$.ajax({
+            url: "/users",
+            type: "GET",
+            contentType: "application/json",
+            success: function (users) {
+                $.each(users, function (index, user) {                	
+                   	if (user.login == login) {                   		
+                    	userIsFound = true;                    	
+                    }
+                });
+
+                if (userIsFound) {
+                	$.ajax({
+			                url: "/user/" + login,
+			                type: "GET",
+			                contentType: "application/json"
+			        }).done(function (response) {
+			        	alert(location.origin + "/user/" + login + "/");
+			 			document.location.href = location.origin + "/user/" + login + "/";
+			 		}).fail(function (err) {
+						console.log("Error...");
+					});
+				}
+				else {
+					alert("Данного пользователя не существует.");
+				}	
+            }
+    });
 });

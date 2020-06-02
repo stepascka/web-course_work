@@ -11,12 +11,9 @@ mongoose.connect("mongodb://localhost/CourseShop", { useNewUrlParser: true }, fu
     });
 });
 
-app.use(express.static(__dirname + "/views"));
+app.use(express.static(__dirname + "/views/authorization"));
+app.use("/user/:login", express.static(__dirname + "/views/main"));
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/user", courseRouter);
+app.use("/user/:login", courseRouter);
 app.use("/", userRouter);
-
-//app.use("", function (request, response) {
- // response.redirect("/authorization.html");
-//});

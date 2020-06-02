@@ -1,8 +1,9 @@
 var main = function () {
 	"use strict";
 
+	//получаем все курсы
 		$.ajax({
-                url: "/user/courses",
+                url: "/user/:login/courses",
                 type: "GET",
                 contentType: "application/json",
                 success: function (courses) {
@@ -48,7 +49,19 @@ var main = function () {
                 }
             });
 
-			
+		//получаем информацию о пользователе
+			$.ajax({
+                url: "/user/"+ location.pathname.split('/')[2] +"/inf",
+                type: "GET",
+                contentType: "application/json",
+                success: function (users) {
+                	$.each(users, function (index, user) {
+                		var $header = $("<header>").append($("<h2>").text(user.name)).append($("<p>").text(user.balance));
+
+                		$("#intro").append($header);
+                	});
+                }
+            });
 		          
 };
 
