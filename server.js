@@ -14,7 +14,7 @@ mongoose.connect("mongodb://localhost/CourseShop", { useNewUrlParser: true }, fu
 app.use(express.static(__dirname + "/views"));
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", courseRouter);
+app.use("/user", courseRouter);
 app.use("/", userRouter);
 
 //app.use("", function (request, response) {

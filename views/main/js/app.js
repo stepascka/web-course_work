@@ -2,7 +2,7 @@ var main = function () {
 	"use strict";
 
 		$.ajax({
-                url: "/courses",
+                url: "/user/courses",
                 type: "GET",
                 contentType: "application/json",
                 success: function (courses) {
