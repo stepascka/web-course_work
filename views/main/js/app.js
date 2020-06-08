@@ -3,41 +3,39 @@ var main = function () {
 
 	//получаем все курсы
 		$.ajax({
-                url: "/user/:login/courses",
+                url: "/user/"+ location.pathname.split('/')[2] +"/messages",
                 type: "GET",
                 contentType: "application/json",
-                success: function (courses) {
-                    $.each(courses, function (index, course) {
+                success: function (messages) {
+                    $.each(messages, function (index, message) {
                         // добавляем полученные элементы в html
 
                         var $title = $("<div class=\"title\">")
-							.append($("<h3>").text(course.name));
-						$title.append($("<p>").text(course.description));
+							.append($("<h3>").append($("<a>").attr("href", "#").text(message.name)));
+						$title.append($("<p>").text(message.type));
+						$title.append($("<p>").text(message.destination));
+						$title.append($("<p>").text(message.number));
 						
-						var $meta = $("<div class=\"meta\">").append($("<h2>").text(course.date));
-						$meta.append($("<span class=\"name\">").text(course.author));
+						var $meta = $("<div class=\"meta\">").append($("<h2>").text(message.date));
+						$meta.append($("<span class=\"name\">").text("Мусин Ринатик"));
 
 						var $header = $("<header>").append($title);
 						$header.append($meta);
 
-						var $price = $("<li>");
-						if(course.price == null)
-							$price.text("Бесплатно");
-						else 
-							$price.text(course.price);
+						var $delMessage = $("<li>").append($("<a>").attr("href", "#").text("Удалить"));
 
-						var $toGet = $("<li>").append($("<a>").attr("href", "#").text("Приобрести"));
-						$toGet.on("click", function () {
-							var agreement = confirm("Вы действительно хотите приобрести данный курс?");
+						var $changeMessage = $("<li>").append($("<a>").attr("href", "#").text("Изменить"));
+						$changeMessage.on("click", function () {
+							var agreement = confirm("Вы действительно хотите изменить данное письмо?");
 							if (agreement == true) {
-								alert("Курс добавлен в вкладки 'Приобретенные курсы'.");
+								alert(".");
 							}
 							else {
 								//
 							}
 						});	
 
-						var $footer = $("<footer>").append($("<ul class=\"stats\">").append($price).append($toGet));
+						var $footer = $("<footer>").append($("<ul class=\"stats\">").append($delMessage).append($changeMessage));
 
 						var $post = $("<article class=\"post\">")
 							.append($header);
@@ -56,7 +54,7 @@ var main = function () {
                 contentType: "application/json",
                 success: function (users) {
                 	$.each(users, function (index, user) {
-                		var $header = $("<header>").append($("<h2>").text(user.name)).append($("<p>").text(user.balance));
+                		var $header = $("<header>").append($("<h2>").text(user.name)).append($("<p>").text("100"));
 
                 		$("#intro").append($header);
                 	});
@@ -84,10 +82,10 @@ var main = function () {
             $("section ul").append($("<li>").append($("<h3>").append($menuLink)));
 
 
-            var $menuLink = $("<a>").attr("href", "#").text("Приобретенные курсы");
+            var $menuLink = $("<a>").attr("href", "#").text("Добавить письмо");
             $("section ul").append($("<li>").append($("<h3>").append($menuLink)));
 
-
+/*
             var $menuLink = $("<a>").attr("href", "#").text("Пополнить баланс");
             $menuLink.on("click", function () {
             	var login = location.pathname.split('/')[2];
@@ -119,7 +117,7 @@ var main = function () {
 			});
 
             $("section ul").append($("<li>").append($("<h3>").append($menuLink)));
-		          
+		          */
 };
 
 $(document).ready(function() {

@@ -1,10 +1,10 @@
 var express = require("express");
 var mongoose = require("mongoose");
-var courseRouter = require("./routes/courseRouter.js");
+var messageRouter = require("./routes/messageRouter.js");
 var userRouter = require("./routes/userRouter.js");
 var app = express();
 
-mongoose.connect("mongodb://localhost/CourseShop", { useNewUrlParser: true }, function(err){
+mongoose.connect("mongodb://localhost/RegistrationOfLetters", { useNewUrlParser: true }, function(err){
     if(err) return console.log(err);
     app.listen(3000, function(){
         console.log("Cервер запущен..");
@@ -13,7 +13,8 @@ mongoose.connect("mongodb://localhost/CourseShop", { useNewUrlParser: true }, fu
 
 app.use(express.static(__dirname + "/views/authorization"));
 app.use("/user/:login", express.static(__dirname + "/views/main"));
+//app.use("/user/:login/acqCourse", express.static(__dirname + "/views/acquiredCourses"));
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/user/:login", courseRouter);
+app.use("/user", messageRouter);
 app.use("/", userRouter);
